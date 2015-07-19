@@ -2,8 +2,17 @@ package com.serloman.popularmovies;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.serloman.themoviedb_api.calls.MovieCallback;
+import com.serloman.themoviedb_api.TheMovieDb_Api;
+import com.serloman.themoviedb_api.calls.MovieListCallback;
+import com.serloman.themoviedb_api.models.Movie;
+
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,6 +21,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        test();
     }
 
     @Override
@@ -35,4 +46,34 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void test(){
+        TheMovieDb_Api api = new TheMovieDb_Api(getString(R.string.the_movie_db_api_key));
+        api.getMovieDataAsync("550", new MovieCallback() {
+            @Override
+            public void onDataReceived(Movie movie) {
+                Toast.makeText(getApplicationContext(), movie.getTitle(), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Exception ex) {
+                Toast.makeText(getApplicationContext(), getApplicationContext().getString(R.string.error_getting_movie), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        api.discoverMoviesAsync(TheMovieDb_Api.Short_By.POPULARITY_ASC, new MovieListCallback() {
+            @Override
+            public void onDataReceived(List<Movie> movies) {
+                for (Movie movie : movies)
+                    Log.d("MovieData", movie.getTitle());
+            }
+
+            @Override
+            public void onError(Exception ex) {
+
+            }
+        });
+    }
+
+
 }
