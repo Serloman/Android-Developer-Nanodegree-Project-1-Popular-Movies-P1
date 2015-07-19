@@ -21,7 +21,7 @@ public class TheMovieDb_Api {
 
         private String mName;
 
-        Short_By(String name){
+        Short_By(String name) {
             this.mName = name;
         }
 

@@ -13,6 +13,7 @@ public class MovieApi implements Movie{
     private long budget;
     private List<GenreApi> genres;
     private int id;
+    private String poster_path;
 
     @Override
     public String toString() {
@@ -30,8 +31,8 @@ public class MovieApi implements Movie{
     }
 
     @Override
-    public String getBackdrop_path() {
-        return backdrop_path;
+    public String getBackdropUrl(ImageMovie.Sizes size) {
+        return getImageUrl(size, backdrop_path);
     }
 
     @Override
@@ -52,5 +53,14 @@ public class MovieApi implements Movie{
     @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public String getPosterUrl(ImageMovie.Sizes size) {
+        return getImageUrl(size, poster_path);
+    }
+
+    private String getImageUrl(ImageMovie.Sizes size, String pathImage){
+        return API_IMAGE_ENDPOINT + "/" + size.toString() + "/" + pathImage;
     }
 }
