@@ -14,6 +14,8 @@ public interface Movie {
     long getBudget();
     List<Genre> getListGenres();
     int getId();
+    String getBackdropRelativePath();
+    String getPosterRelativePath();
     String getBackdropUrl(ImageMovie.Sizes size);
     String getPosterUrl(ImageMovie.Sizes size);
 }

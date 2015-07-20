@@ -19,19 +19,19 @@ public class ParcelableMovie implements Parcelable, Movie {
     private String mTitle;
     private int mIsAdult;
     private long mBudget;
-    private String mBackDropUrl;
-    private String mPosterUrl;
+    private String mBackDropPath;
+    private String mPosterPath;
     private List<ParcelableGenre> mGenres;
 
-    public ParcelableMovie(Movie movie, ImageMovie.Sizes size){
+    public ParcelableMovie(Movie movie){
         this.mId = movie.getId();
         this.mTitle = movie.getTitle();
         this.mIsAdult = 0;
         if(movie.isAdult())
             this.mIsAdult = 1;
         this.mBudget = movie.getBudget();
-        this.mBackDropUrl = movie.getBackdropUrl(size);
-        this.mPosterUrl = movie.getPosterUrl(size);
+        this.mBackDropPath = movie.getBackdropRelativePath();
+        this.mPosterPath = movie.getPosterRelativePath();
         mGenres = new ArrayList<>();
         for(Genre genre : movie.getListGenres())
             mGenres.add(new ParcelableGenre(genre));
@@ -72,13 +72,23 @@ public class ParcelableMovie implements Parcelable, Movie {
     }
 
     @Override
+    public String getBackdropRelativePath() {
+        return mBackDropPath;
+    }
+
+    @Override
+    public String getPosterRelativePath() {
+        return mPosterPath;
+    }
+
+    @Override
     public String getBackdropUrl(ImageMovie.Sizes size) {
-        return mBackDropUrl;
+        return getImageUrl(size, mBackDropPath);
     }
 
     @Override
     public String getPosterUrl(ImageMovie.Sizes size) {
-        return mPosterUrl;
+        return getImageUrl(size, mPosterPath);
     }
 
     @Override
@@ -92,8 +102,8 @@ public class ParcelableMovie implements Parcelable, Movie {
         dest.writeString(mTitle);
         dest.writeInt(mIsAdult);
         dest.writeLong(mBudget);
-        dest.writeString(mBackDropUrl);
-        dest.writeString(mPosterUrl);
+        dest.writeString(mBackDropPath);
+        dest.writeString(mPosterPath);
         dest.writeList(mGenres);
 
     }
@@ -103,10 +113,14 @@ public class ParcelableMovie implements Parcelable, Movie {
         mTitle = in.readString();
         mIsAdult = in.readInt();
         mBudget = in.readLong();
-        mBackDropUrl = in.readString();
-        mPosterUrl = in.readString();
+        mBackDropPath = in.readString();
+        mPosterPath = in.readString();
         mGenres = new ArrayList<>();
         in.readList(mGenres, ParcelableGenre.class.getClassLoader());
+    }
+
+    private String getImageUrl(ImageMovie.Sizes size, String pathImage){
+        return API_IMAGE_ENDPOINT + "/" + size.toString() + "/" + pathImage;
     }
 
     public static final Parcelable.Creator<ParcelableMovie> CREATOR = new Parcelable.Creator<ParcelableMovie>(){

@@ -19,7 +19,7 @@ public class TheMovieDb_Api {
         VOTE_AVERAGE_ASC("vote_average.asc"),
         VOTE_AVERAGE_DESC("vote_average.desc");
 
-        private String mName;
+        private final String mName;
 
         Short_By(String name) {
             this.mName = name;

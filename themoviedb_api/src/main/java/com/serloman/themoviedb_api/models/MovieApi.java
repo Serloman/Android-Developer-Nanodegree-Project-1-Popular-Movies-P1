@@ -56,6 +56,16 @@ public class MovieApi implements Movie{
     }
 
     @Override
+    public String getBackdropRelativePath() {
+        return backdrop_path;
+    }
+
+    @Override
+    public String getPosterRelativePath() {
+        return poster_path;
+    }
+
+    @Override
     public String getPosterUrl(ImageMovie.Sizes size) {
         return getImageUrl(size, poster_path);
     }

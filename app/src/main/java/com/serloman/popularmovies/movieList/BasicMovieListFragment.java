@@ -1,15 +1,16 @@
 package com.serloman.popularmovies.movieList;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.serloman.popularmovies.R;
+import com.serloman.themoviedb_api.calls.MovieListCallback;
 import com.serloman.themoviedb_api.models.Movie;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.List;
 /**
  * Created by Serloman on 20/07/2015.
  */
-public class BasicMovieListFragment extends Fragment {
+public abstract class BasicMovieListFragment extends Fragment implements MovieListCallback, MoviesAdapter.MovieSelectedListener {
 
     public static final String ARG_SPAN_COUNT = "ARG_SPAN_COUNT";
 
@@ -38,6 +39,7 @@ public class BasicMovieListFragment extends Fragment {
     private void initRecyclerGridView(View rootView){
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.movieGridRecyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getSpanCount()));
+        mRecyclerView.addItemDecoration(new MovieDecoration(20));
         mRecyclerView.setHasFixedSize(true);
     }
 
@@ -45,8 +47,19 @@ public class BasicMovieListFragment extends Fragment {
         return this.getArguments().getInt(ARG_SPAN_COUNT, 2);
     }
 
-    protected void populateGrid(List<Movie> movies){
-        mMoviesAdapter = new MoviesAdapter(movies);
+    @Override
+    public void onDataReceived(List<Movie> movies) {
+        mMoviesAdapter = new MoviesAdapter(getActivity(), movies, this);
         mRecyclerView.setAdapter(mMoviesAdapter);
+    }
+
+    @Override
+    public void onError(Exception ex) {
+        Toast.makeText(getActivity(), getActivity().getString(R.string.error_getting_movie), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onMovieSelected(Movie movie) {
+        Toast.makeText(getActivity(), "I'm " + movie.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

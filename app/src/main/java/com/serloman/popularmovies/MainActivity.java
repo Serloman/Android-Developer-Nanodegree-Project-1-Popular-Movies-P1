@@ -1,5 +1,6 @@
 package com.serloman.popularmovies;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,12 +18,18 @@ import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
 
+    public final static int TYPE_POPULARITY = 0;
+    public final static int TYPE_RATED = 1;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        test();
+        selectFragment(TYPE_POPULARITY);
+
+//        test();
     }
 
     @Override
@@ -47,7 +54,27 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-/**/
+    private void selectFragment(int type){
+
+        Fragment fragment;
+
+        switch (type){
+            case TYPE_POPULARITY:
+                fragment = PopularMoviesFragment.newInstance();
+                break;
+            case TYPE_RATED:
+                fragment = PopularMoviesFragment.newInstance();
+                break;
+            default:
+                fragment = PopularMoviesFragment.newInstance();
+                break;
+        }
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
+    }
+
+/** /
+    @Deprecated
     private void test(){
         TheMovieDb_Api api = new TheMovieDb_Api(getString(R.string.the_movie_db_api_key));
         api.getMovieDataAsync("550", new MovieCallback() {
