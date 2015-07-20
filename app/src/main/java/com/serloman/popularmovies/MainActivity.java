@@ -47,6 +47,7 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+/**/
     private void test(){
         TheMovieDb_Api api = new TheMovieDb_Api(getString(R.string.the_movie_db_api_key));
         api.getMovieDataAsync("550", new MovieCallback() {
@@ -74,6 +75,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
     }
+/**/
 
 
 }
