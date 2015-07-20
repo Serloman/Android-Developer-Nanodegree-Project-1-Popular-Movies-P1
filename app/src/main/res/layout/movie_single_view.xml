@@ -27,7 +27,16 @@
                 android:id="@+id/movieSingleViewTitle"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/single_item_margin"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textColor="#FFF" />
         </FrameLayout>
+
     </LinearLayout>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/default_selector_view"
+        android:layout_gravity="center_horizontal" />
+
 </FrameLayout>

@@ -1,9 +1,12 @@
 package com.serloman.popularmovies.movieList;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +54,8 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
     public void onDataReceived(List<Movie> movies) {
         mMoviesAdapter = new MoviesAdapter(getActivity(), movies, this);
         mRecyclerView.setAdapter(mMoviesAdapter);
+
+        getView().findViewById(R.id.movieGridProgressBar).setVisibility(View.GONE);
     }
 
     @Override
@@ -62,4 +67,6 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
     public void onMovieSelected(Movie movie) {
         Toast.makeText(getActivity(), "I'm " + movie.getTitle(), Toast.LENGTH_SHORT).show();
     }
+
+
 }

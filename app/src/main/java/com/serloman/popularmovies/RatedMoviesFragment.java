@@ -11,14 +11,14 @@ import com.serloman.themoviedb_api.TheMovieDb_Api;
 /**
  * Created by Serloman on 20/07/2015.
  */
-public class PopularMoviesFragment extends BasicMovieListFragment{
+public class RatedMoviesFragment extends BasicMovieListFragment{
 
-    public static PopularMoviesFragment newInstance(){
+    public static RatedMoviesFragment newInstance(){
         return newInstance(2);
     }
 
-    public static PopularMoviesFragment newInstance(int spanCount){
-        PopularMoviesFragment fragment = new PopularMoviesFragment();
+    public static RatedMoviesFragment newInstance(int spanCount){
+        RatedMoviesFragment fragment = new RatedMoviesFragment();
 
         Bundle args = new Bundle();
         args.putInt(BasicMovieListFragment.ARG_SPAN_COUNT, spanCount);
@@ -27,14 +27,14 @@ public class PopularMoviesFragment extends BasicMovieListFragment{
         return fragment;
     }
 
-    public PopularMoviesFragment() { }
+    public RatedMoviesFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView =  super.onCreateView(inflater, container, savedInstanceState);
 
         TheMovieDb_Api api = new TheMovieDb_Api(PopularMoviesApp.getTheMovieDbApiKey(getActivity()));
-        api.discoverMoviesAsync(TheMovieDb_Api.Short_By.POPULARITY_DESC, this);
+        api.discoverMoviesAsync(TheMovieDb_Api.Short_By.VOTE_AVERAGE_DESC, this);
 
         return rootView;
     }

@@ -43,7 +43,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         this.mSize = size;
         this.mMovieListener = listener;
 
-        this.mDefaultColor = context.getResources().getColor(R.color.title_color);
+        this.mDefaultColor = Color.parseColor("#ff59b4ff"); //context.getResources().getColor(R.color.title_color);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         Picasso.with(mContext).load(movie.getPosterUrl(mSize)).into(posterView, new Callback() {
             @Override
             public void onSuccess() {
-                if (posterView.getDrawable() != null)
+//                if (posterView.getDrawable() != null)
                     updateTitleColor(titleContainer, titleView, posterView.getDrawable());
             }
 

@@ -17,7 +17,7 @@ public interface TheMovieDb_Service {
     MovieApi movieData(@Path("movie") String movie, @Query("api_key") String api_key);
 
     @GET("/discover/movie")
-    MovieListApi discoverMovies(@Query("short_by") String sort_by, @Query("api_key") String api_key);
+    MovieListApi discoverMovies(@Query("sort_by") String sort_by, @Query("api_key") String api_key);
 
     @GET("/movie/{movie}/images")
     MovieMediaApi mediaMovie(@Path("movie") String movie, @Query("api_key") String api_key);
