@@ -1,17 +1,22 @@
 package com.serloman.popularmovies;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 
 import com.serloman.popularmovies.movieList.BasicMovieListFragment;
 import com.serloman.themoviedb_api.TheMovieDb_Api;
+import com.serloman.themoviedb_api.models.FullMovie;
+import com.serloman.themoviedb_api.models.Movie;
+
+import java.util.List;
 
 /**
  * Created by Serloman on 20/07/2015.
  */
-public class PopularMoviesFragment extends BasicMovieListFragment{
+public class PopularMoviesFragment extends BasicMovieListFragment implements LoaderManager.LoaderCallbacks<List<Movie>>{
 
     public static PopularMoviesFragment newInstance(){
         return newInstance(2);
@@ -30,12 +35,8 @@ public class PopularMoviesFragment extends BasicMovieListFragment{
     public PopularMoviesFragment() { }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView =  super.onCreateView(inflater, container, savedInstanceState);
-
-        TheMovieDb_Api api = new TheMovieDb_Api(PopularMoviesApp.getTheMovieDbApiKey(getActivity()));
-        api.discoverMoviesAsync(TheMovieDb_Api.Short_By.POPULARITY_DESC, this);
-
-        return rootView;
+    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+        return new MoviesLoader(getActivity(), TheMovieDb_Api.Short_By.POPULARITY_DESC);
     }
+
 }

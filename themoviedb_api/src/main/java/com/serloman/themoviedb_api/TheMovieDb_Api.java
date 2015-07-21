@@ -5,6 +5,13 @@ import com.serloman.themoviedb_api.calls.DiscoverMoviesAsyncTask;
 import com.serloman.themoviedb_api.calls.GetMovieAsyncTask;
 import com.serloman.themoviedb_api.calls.MovieCallback;
 import com.serloman.themoviedb_api.calls.MovieListCallback;
+import com.serloman.themoviedb_api.models.DiscoverMovieApi;
+import com.serloman.themoviedb_api.models.FullMovie;
+import com.serloman.themoviedb_api.models.Movie;
+import com.serloman.themoviedb_api.models.MovieListApi;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.RestAdapter;
 
@@ -44,9 +51,31 @@ public class TheMovieDb_Api {
         mApiKey = apiKey;
     }
 
+    public FullMovie getMovieData(int idMovie){
+        return getMovieData(String.valueOf(idMovie));
+    }
+
+    public FullMovie getMovieData(String idMovie){
+        return mService.movieData(idMovie, mApiKey);
+    }
+
+    public void getMovieDataAsync(int idMovie, MovieCallback movieCallback){
+        getMovieDataAsync(String.valueOf(idMovie), movieCallback);
+    }
+
     public void getMovieDataAsync(String idMovie, MovieCallback movieCallback){
         GetMovieAsyncTask task = new GetMovieAsyncTask(mService, mApiKey, movieCallback);
         task.execute(idMovie);
+    }
+
+    public List<Movie> discoverMovies(Short_By short_by){
+        return discoverMovies(1, short_by);
+    }
+
+    public List<Movie> discoverMovies(int page, Short_By short_by){
+        MovieListApi moviesApi = mService.discoverMovies(String.valueOf(page), short_by.toString(), mApiKey);
+
+        return moviesApi.getMovies();
     }
 
     public void discoverMoviesAsync(Short_By short_by, MovieListCallback moviesCallback){

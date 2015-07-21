@@ -6,14 +6,20 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.serloman.themoviedb_api.TheMovieDb_Api;
+
 /**
  * Created by Serloman on 20/07/2015.
  */
-public class PopularMoviesApp {
+public class DefaultTheMovieDbApi extends TheMovieDb_Api{
 
     private final static String TAG = "TheMovieDbApiKey";
 
-    protected static String getTheMovieDbApiKey(Context context){
+    public DefaultTheMovieDbApi(Context context) {
+        super(getTheMovieDbApiKey(context));
+    }
+
+    private static String getTheMovieDbApiKey(Context context){
         try {
             return getApiKey(context);
         } catch (PackageManager.NameNotFoundException e) {

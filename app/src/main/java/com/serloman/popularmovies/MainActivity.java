@@ -1,23 +1,18 @@
 package com.serloman.popularmovies;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import com.serloman.themoviedb_api.calls.MovieCallback;
-import com.serloman.themoviedb_api.TheMovieDb_Api;
-import com.serloman.themoviedb_api.calls.MovieListCallback;
+import com.serloman.popularmovies.models.ParcelableDiscoverMovie;
+import com.serloman.popularmovies.movieList.BasicMovieListFragment;
 import com.serloman.themoviedb_api.models.Movie;
 
-import java.util.List;
-
-
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity implements BasicMovieListFragment.OpenMovieListener {
 
     public final static int TYPE_POPULARITY = 0;
     public final static int TYPE_RATED = 1;
@@ -103,5 +98,14 @@ public class MainActivity extends ActionBarActivity {
         }
 
         mToolbar.setSubtitle(title);
+    }
+
+    @Override
+    public void openMovie(Movie movie) {
+//        Toast.makeText(getActivity(), "I'm " + movie.getTitle(), Toast.LENGTH_SHORT).show();
+
+        Intent openMovieIntent = new Intent(this, MovieDetailsActivity.class);
+        openMovieIntent.putExtra(MovieDetailsActivity.ARG_MOVIE_DATA, new ParcelableDiscoverMovie(movie));
+        startActivity(openMovieIntent);
     }
 }

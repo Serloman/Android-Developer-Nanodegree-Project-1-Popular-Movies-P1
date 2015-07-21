@@ -3,12 +3,12 @@ package com.serloman.themoviedb_api.calls;
 import android.os.AsyncTask;
 
 import com.serloman.themoviedb_api.TheMovieDb_Service;
-import com.serloman.themoviedb_api.models.Movie;
+import com.serloman.themoviedb_api.models.FullMovie;
 
 /**
  * Created by Serloman on 19/07/2015.
  */
-public class GetMovieAsyncTask extends AsyncTask<String, Integer, Movie> {
+public class GetMovieAsyncTask extends AsyncTask<String, Integer, FullMovie> {
 
     private TheMovieDb_Service mService;
     private String mApiKey;
@@ -20,17 +20,17 @@ public class GetMovieAsyncTask extends AsyncTask<String, Integer, Movie> {
         this.mMovieCallback = movieCallback;
     }
 
-    protected Movie doInBackground(String... movieIds) {
+    protected FullMovie doInBackground(String... movieIds) {
         String movieId = movieIds[0];
-        Movie movie = mService.movieData(movieId, mApiKey);
+        FullMovie movie = mService.movieData(movieId, mApiKey);
 
         return movie;
     }
 
     @Override
-    protected void onPostExecute(Movie movie) {
+    protected void onPostExecute(FullMovie movie) {
         if(movie!=null)
-            mMovieCallback.onDataReceived(movie);
+            mMovieCallback.onMovieDataReceived(movie);
         else
             mMovieCallback.onError(null);
     }

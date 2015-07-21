@@ -9,13 +9,13 @@ import java.util.List;
 public interface Movie {
     String API_IMAGE_ENDPOINT = ImageMovie.API_ENDPOINT;
 
+    int getId();
     String getTitle();
     boolean isAdult();
-    long getBudget();
-    List<Genre> getListGenres();
-    int getId();
+
     String getBackdropRelativePath();
     String getPosterRelativePath();
     String getBackdropUrl(ImageMovie.Sizes size);
     String getPosterUrl(ImageMovie.Sizes size);
+
 }

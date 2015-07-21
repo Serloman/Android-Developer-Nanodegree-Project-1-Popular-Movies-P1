@@ -4,10 +4,8 @@ import android.os.AsyncTask;
 
 import com.serloman.themoviedb_api.TheMovieDb_Service;
 import com.serloman.themoviedb_api.models.Movie;
-import com.serloman.themoviedb_api.models.MovieApi;
 import com.serloman.themoviedb_api.models.MovieListApi;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,22 +27,18 @@ public class DiscoverMoviesAsyncTask extends AsyncTask<String, Integer, List<Mov
     }
 
     protected List<Movie> doInBackground(String... args) {
+        String page = args[POS_ARG_PAGE];
         String shortBy = args[POS_ARG_SHORT_BY];
 
-        MovieListApi moviesApi = mService.discoverMovies(shortBy, mApiKey);
-        List<MovieApi> movies = moviesApi.getMovies();
+        MovieListApi moviesApi = mService.discoverMovies(page, shortBy, mApiKey);
 
-        List<Movie> defaultMovies = new ArrayList<>();
-        for(MovieApi movie : movies)
-            defaultMovies.add(movie);
-
-        return defaultMovies;
+        return moviesApi.getMovies();
     }
 
     @Override
     protected void onPostExecute(List<Movie> movies) {
         if(movies!=null)
-            mMovieCallback.onDataReceived(movies);
+            mMovieCallback.onMovieListDataReceived(movies);
         else
             mMovieCallback.onError(null);
     }
