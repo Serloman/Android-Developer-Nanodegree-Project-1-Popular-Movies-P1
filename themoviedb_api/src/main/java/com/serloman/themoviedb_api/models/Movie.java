@@ -12,6 +12,7 @@ public interface Movie {
     int getId();
     String getTitle();
     boolean isAdult();
+    String getOverview();
 
     String getBackdropRelativePath();
     String getPosterRelativePath();

@@ -12,6 +12,7 @@ public class DiscoverMovieApi implements Movie{
     private String backdrop_path;
     private int id;
     private String poster_path;
+    private String overview;
 
     @Override
     public String toString() {
@@ -26,6 +27,11 @@ public class DiscoverMovieApi implements Movie{
     @Override
     public boolean isAdult() {
         return adult;
+    }
+
+    @Override
+    public String getOverview() {
+        return overview;
     }
 
     @Override

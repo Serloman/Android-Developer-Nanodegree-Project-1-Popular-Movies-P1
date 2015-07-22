@@ -2,4 +2,6 @@
 <resources>
     <color name="title_color">#ff59b4ff</color>
     <color name="background_color">#ffb7d6ff</color>
+
+    <color name="card_background">#ffdeedff</color>
 </resources>

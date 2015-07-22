@@ -1,7 +1,6 @@
 package com.serloman.popularmovies.movieList;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -13,9 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.serloman.popularmovies.MovieDetailsActivity;
 import com.serloman.popularmovies.R;
-import com.serloman.popularmovies.models.ParcelableDiscoverMovie;
 import com.serloman.themoviedb_api.calls.MovieListCallback;
 import com.serloman.themoviedb_api.models.Movie;
 

@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.serloman.popularmovies.models.ParcelableDiscoverMovie;
+import com.serloman.popularmovies.movieDetails.MovieDetailsActivity;
 import com.serloman.popularmovies.movieList.BasicMovieListFragment;
 import com.serloman.themoviedb_api.models.Movie;
 

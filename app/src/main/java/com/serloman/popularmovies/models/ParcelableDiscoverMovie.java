@@ -18,6 +18,7 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
     private int mIsAdult;
     private String mBackDropPath;
     private String mPosterPath;
+    private String mOverview;
 
     public ParcelableDiscoverMovie(Movie movie){
         this.mId = movie.getId();
@@ -27,6 +28,7 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
             this.mIsAdult = 1;
         this.mBackDropPath = movie.getBackdropRelativePath();
         this.mPosterPath = movie.getPosterRelativePath();
+        this.mOverview = movie.getOverview();
     }
 
     public ParcelableDiscoverMovie(Parcel in){
@@ -41,6 +43,11 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
     @Override
     public boolean isAdult() {
         return mIsAdult==1;
+    }
+
+    @Override
+    public String getOverview() {
+        return mOverview;
     }
 
     @Override
@@ -81,6 +88,7 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
         dest.writeInt(mIsAdult);
         dest.writeString(mBackDropPath);
         dest.writeString(mPosterPath);
+        dest.writeString(mOverview);
     }
 
     private void readFromParcel(Parcel in){
@@ -89,6 +97,7 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
         mIsAdult = in.readInt();
         mBackDropPath = in.readString();
         mPosterPath = in.readString();
+        mOverview = in.readString();
     }
 
     private String getImageUrl(ImageMovie.Sizes size, String pathImage){

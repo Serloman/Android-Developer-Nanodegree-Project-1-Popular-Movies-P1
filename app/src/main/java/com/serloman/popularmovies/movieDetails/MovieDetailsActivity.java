@@ -1,8 +1,9 @@
-package com.serloman.popularmovies;
+package com.serloman.popularmovies.movieDetails;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.serloman.popularmovies.R;
 import com.serloman.themoviedb_api.models.Movie;
 
 /**

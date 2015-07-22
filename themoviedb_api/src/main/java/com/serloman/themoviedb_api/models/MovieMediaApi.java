@@ -1,5 +1,6 @@
 package com.serloman.themoviedb_api.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +12,22 @@ public class MovieMediaApi implements MovieMedia{
     private List<ImageMovieApi> posters;
 
     @Override
-    public List<ImageMovieApi> getBackdrops(){
+    public List<ImageMovie> getBackdrops(){
+        List<ImageMovie> backdrops = new ArrayList<>();
+
+        for(ImageMovieApi image : this.backdrops)
+            backdrops.add(image);
+
         return backdrops;
     }
 
     @Override
-    public List<ImageMovieApi> getPosters(){
-        return backdrops;
+    public List<ImageMovie> getPosters(){
+        List<ImageMovie> posters = new ArrayList<>();
+
+        for(ImageMovie poster : this.posters)
+            posters.add(poster);
+
+        return posters;
     }
 }

@@ -5,10 +5,14 @@ import com.serloman.themoviedb_api.calls.DiscoverMoviesAsyncTask;
 import com.serloman.themoviedb_api.calls.GetMovieAsyncTask;
 import com.serloman.themoviedb_api.calls.MovieCallback;
 import com.serloman.themoviedb_api.calls.MovieListCallback;
+import com.serloman.themoviedb_api.calls.MovieMediaAsyncTask;
+import com.serloman.themoviedb_api.calls.MovieMediaCallback;
 import com.serloman.themoviedb_api.models.DiscoverMovieApi;
 import com.serloman.themoviedb_api.models.FullMovie;
+import com.serloman.themoviedb_api.models.ImageMovie;
 import com.serloman.themoviedb_api.models.Movie;
 import com.serloman.themoviedb_api.models.MovieListApi;
+import com.serloman.themoviedb_api.models.MovieMedia;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,5 +89,22 @@ public class TheMovieDb_Api {
     public void discoverMoviesAsync(int page, Short_By short_by, MovieListCallback moviesCallback){
         DiscoverMoviesAsyncTask task = new DiscoverMoviesAsyncTask(mService, mApiKey, moviesCallback);
         task.execute(String.valueOf(page), short_by.toString());
+    }
+
+    public MovieMedia getMovieMedia(int idMovie){
+        return getMovieMedia(String.valueOf(idMovie));
+    }
+
+    public MovieMedia getMovieMedia(String idMovie){
+        return mService.mediaMovie(idMovie, mApiKey);
+    }
+
+    public void getMovieMediaAsync(int idMovie, MovieMediaCallback movieMediaCallback){
+        getMovieMediaAsync(String.valueOf(idMovie), movieMediaCallback);
+    }
+
+    public void getMovieMediaAsync(String idMovie, MovieMediaCallback movieMediaCallback){
+        MovieMediaAsyncTask task = new MovieMediaAsyncTask(mService, mApiKey, movieMediaCallback);
+        task.execute(idMovie);
     }
 }

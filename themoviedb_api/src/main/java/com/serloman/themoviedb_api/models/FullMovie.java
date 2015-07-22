@@ -8,4 +8,11 @@ import java.util.List;
 public interface FullMovie extends Movie {
     List<Genre> getListGenres();
     long getBudget();
+    String getHomePage();
+    String getImdbId();
+    double getPopularity();
+    String getReleaseDate();
+    long getRevenue();
+    String getTagline();
+    List<ProductionCompany> getListProductionCompanies();
 }
