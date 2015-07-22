@@ -32,6 +32,6 @@ public class RatedMoviesFragment extends BasicMovieListFragment{
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
-        return new MoviesLoader(getActivity(), TheMovieDb_Api.Short_By.VOTE_AVERAGE_DESC);
+        return new TopRatedMoviesLoader(getActivity());
     }
 }

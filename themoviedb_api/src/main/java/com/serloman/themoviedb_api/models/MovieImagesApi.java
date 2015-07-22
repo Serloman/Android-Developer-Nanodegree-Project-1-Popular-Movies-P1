@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Serloman on 19/07/2015.
  */
-public class MovieMediaApi implements MovieMedia{
+public class MovieImagesApi implements MovieImages {
     int id;
     private List<ImageMovieApi> backdrops;
     private List<ImageMovieApi> posters;

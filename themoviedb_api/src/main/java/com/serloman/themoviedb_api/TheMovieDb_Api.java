@@ -5,16 +5,19 @@ import com.serloman.themoviedb_api.calls.DiscoverMoviesAsyncTask;
 import com.serloman.themoviedb_api.calls.GetMovieAsyncTask;
 import com.serloman.themoviedb_api.calls.MovieCallback;
 import com.serloman.themoviedb_api.calls.MovieListCallback;
-import com.serloman.themoviedb_api.calls.MovieMediaAsyncTask;
-import com.serloman.themoviedb_api.calls.MovieMediaCallback;
-import com.serloman.themoviedb_api.models.DiscoverMovieApi;
+import com.serloman.themoviedb_api.calls.MovieImagesAsyncTask;
+import com.serloman.themoviedb_api.calls.MovieImagesCallback;
+import com.serloman.themoviedb_api.calls.MovieVideosAsyncTask;
+import com.serloman.themoviedb_api.calls.MovieVideosCallback;
+import com.serloman.themoviedb_api.calls.PopularMoviesAsyncTask;
+import com.serloman.themoviedb_api.calls.TopRatedMoviesAsyncTask;
 import com.serloman.themoviedb_api.models.FullMovie;
-import com.serloman.themoviedb_api.models.ImageMovie;
 import com.serloman.themoviedb_api.models.Movie;
 import com.serloman.themoviedb_api.models.MovieListApi;
-import com.serloman.themoviedb_api.models.MovieMedia;
+import com.serloman.themoviedb_api.models.MovieImages;
+import com.serloman.themoviedb_api.models.MovieVideos;
+import com.serloman.themoviedb_api.models.VideoMovie;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit.RestAdapter;
@@ -91,20 +94,76 @@ public class TheMovieDb_Api {
         task.execute(String.valueOf(page), short_by.toString());
     }
 
-    public MovieMedia getMovieMedia(int idMovie){
-        return getMovieMedia(String.valueOf(idMovie));
+    public MovieImages getMovieImages(int idMovie){
+        return getMovieImages(String.valueOf(idMovie));
     }
 
-    public MovieMedia getMovieMedia(String idMovie){
+    public MovieImages getMovieImages(String idMovie){
         return mService.mediaMovie(idMovie, mApiKey);
     }
 
-    public void getMovieMediaAsync(int idMovie, MovieMediaCallback movieMediaCallback){
-        getMovieMediaAsync(String.valueOf(idMovie), movieMediaCallback);
+    public void getMovieImagesAsync(int idMovie, MovieImagesCallback movieMediaCallback){
+        getMovieImagesAsync(String.valueOf(idMovie), movieMediaCallback);
     }
 
-    public void getMovieMediaAsync(String idMovie, MovieMediaCallback movieMediaCallback){
-        MovieMediaAsyncTask task = new MovieMediaAsyncTask(mService, mApiKey, movieMediaCallback);
+    public void getMovieImagesAsync(String idMovie, MovieImagesCallback movieMediaCallback){
+        MovieImagesAsyncTask task = new MovieImagesAsyncTask(mService, mApiKey, movieMediaCallback);
         task.execute(idMovie);
+    }
+
+    public List<VideoMovie> getMovieVideos(int idMovie){
+        return getMovieVideos(String.valueOf(idMovie));
+    }
+
+    public List<VideoMovie> getMovieVideos(String idMovie){
+        MovieVideos movieVideos = mService.videosMovie(idMovie, mApiKey);
+        return movieVideos.getVideos();
+    }
+
+    public void getMovieVideosAsync(int idMovie, MovieVideosCallback movieMediaCallback){
+        getMovieVideosAsync(String.valueOf(idMovie), movieMediaCallback);
+    }
+
+    public void getMovieVideosAsync(String idMovie, MovieVideosCallback movieVideosCallback){
+        MovieVideosAsyncTask task = new MovieVideosAsyncTask(mService, mApiKey, movieVideosCallback);
+        task.execute(idMovie);
+    }
+
+    public List<Movie> popularMovies(){
+        return popularMovies(1);
+    }
+
+    public List<Movie> popularMovies(int page){
+        MovieListApi moviesApi = mService.popularMovies(String.valueOf(page), mApiKey);
+
+        return moviesApi.getMovies();
+    }
+
+    public void popularMoviesAsync(MovieListCallback moviesCallback){
+        popularMoviesAsync(1, moviesCallback);
+    }
+
+    public void popularMoviesAsync(int page, MovieListCallback moviesCallback){
+        PopularMoviesAsyncTask task = new PopularMoviesAsyncTask(mService, mApiKey, moviesCallback);
+        task.execute(String.valueOf(page));
+    }
+
+    public List<Movie> topRatedMovies(){
+        return topRatedMovies(1);
+    }
+
+    public List<Movie> topRatedMovies(int page){
+        MovieListApi moviesApi = mService.topRatedMovies(String.valueOf(page), mApiKey);
+
+        return moviesApi.getMovies();
+    }
+
+    public void topRatedMoviesAsync(MovieListCallback moviesCallback){
+        topRatedMoviesAsync(1, moviesCallback);
+    }
+
+    public void topRatedMoviesAsync(int page, MovieListCallback moviesCallback){
+        TopRatedMoviesAsyncTask task = new TopRatedMoviesAsyncTask(mService, mApiKey, moviesCallback);
+        task.execute(String.valueOf(page));
     }
 }

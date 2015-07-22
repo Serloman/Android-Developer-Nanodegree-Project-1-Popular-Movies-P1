@@ -1,9 +1,9 @@
 package com.serloman.themoviedb_api;
 
 import com.serloman.themoviedb_api.models.FullMovieApi;
-import com.serloman.themoviedb_api.models.MovieMediaApi;
-import com.serloman.themoviedb_api.models.DiscoverMovieApi;
+import com.serloman.themoviedb_api.models.MovieImagesApi;
 import com.serloman.themoviedb_api.models.MovieListApi;
+import com.serloman.themoviedb_api.models.MovieVideosApi;
 
 import retrofit.http.GET;
 import retrofit.http.Path;
@@ -20,5 +20,14 @@ public interface TheMovieDb_Service {
     MovieListApi discoverMovies(@Query("page") String page, @Query("sort_by") String sort_by, @Query("api_key") String api_key);
 
     @GET("/movie/{movie}/images")
-    MovieMediaApi mediaMovie(@Path("movie") String movie, @Query("api_key") String api_key);
+    MovieImagesApi mediaMovie(@Path("movie") String movie, @Query("api_key") String api_key);
+
+    @GET("/movie/{movie}/videos")
+    MovieVideosApi videosMovie(@Path("movie") String movie, @Query("api_key") String api_key);
+
+    @GET("/movie/popular")
+    MovieListApi popularMovies(@Query("page") String page, @Query("api_key") String api_key);
+
+    @GET("/movie/top_rated")
+    MovieListApi topRatedMovies(@Query("page") String page, @Query("api_key") String api_key);
 }

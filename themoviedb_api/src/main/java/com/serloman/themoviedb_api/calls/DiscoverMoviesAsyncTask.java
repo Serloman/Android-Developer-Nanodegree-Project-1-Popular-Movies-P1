@@ -16,8 +16,8 @@ public class DiscoverMoviesAsyncTask extends AsyncTask<String, Integer, List<Mov
     public static final int POS_ARG_PAGE = 0;
     public static final int POS_ARG_SHORT_BY = 1;
 
-    private TheMovieDb_Service mService;
-    private String mApiKey;
+    protected TheMovieDb_Service mService;
+    protected String mApiKey;
     private MovieListCallback mMovieCallback;
 
     public DiscoverMoviesAsyncTask(TheMovieDb_Service service, String apiKey, MovieListCallback movieCallback){

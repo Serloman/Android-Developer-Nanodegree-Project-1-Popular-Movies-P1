@@ -22,11 +22,11 @@ import android.widget.Toast;
 import com.serloman.popularmovies.DefaultTheMovieDbApi;
 import com.serloman.popularmovies.R;
 import com.serloman.themoviedb_api.calls.MovieCallback;
-import com.serloman.themoviedb_api.calls.MovieMediaCallback;
+import com.serloman.themoviedb_api.calls.MovieImagesCallback;
 import com.serloman.themoviedb_api.models.FullMovie;
 import com.serloman.themoviedb_api.models.ImageMovie;
 import com.serloman.themoviedb_api.models.Movie;
-import com.serloman.themoviedb_api.models.MovieMedia;
+import com.serloman.themoviedb_api.models.MovieImages;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by Serloman on 20/07/2015.
  */
-public class MovieDetailsFragment extends Fragment implements MovieCallback, LoaderManager.LoaderCallbacks<FullMovie>, MovieMediaCallback{
+public class MovieDetailsFragment extends Fragment implements MovieCallback, LoaderManager.LoaderCallbacks<FullMovie>, MovieImagesCallback {
 
     public final static String ARG_MOVIE_DATA = "ARG_MOVIE_DATA";
 
@@ -120,11 +120,11 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
         mViewPager.setPadding(paddingSiblings, 0, paddingSiblings, 0);
 
         DefaultTheMovieDbApi api = new DefaultTheMovieDbApi(getActivity());
-        api.getMovieMediaAsync(movie.getId(), this);
+        api.getMovieImagesAsync(movie.getId(), this);
     }
 
     @Override
-    public void onMovieMediaDataReceived(MovieMedia movieMedia) {
+    public void onMovieMediaDataReceived(MovieImages movieMedia) {
         List<ImageMovie> gallery = movieMedia.getBackdrops();
         mAdapter = new GalleryPagerAdapter(getActivity(), gallery);
 
