@@ -1,6 +1,7 @@
 package com.serloman.popularmovies.movieDetails;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -21,6 +22,9 @@ import android.widget.Toast;
 
 import com.serloman.popularmovies.DefaultTheMovieDbApi;
 import com.serloman.popularmovies.R;
+import com.serloman.popularmovies.gallery.GalleryActivity;
+import com.serloman.popularmovies.models.ParcelableDiscoverMovie;
+import com.serloman.popularmovies.models.ParcelableImageMovie;
 import com.serloman.themoviedb_api.calls.MovieCallback;
 import com.serloman.themoviedb_api.calls.MovieImagesCallback;
 import com.serloman.themoviedb_api.models.FullMovie;
@@ -29,6 +33,7 @@ import com.serloman.themoviedb_api.models.Movie;
 import com.serloman.themoviedb_api.models.MovieImages;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,7 +47,7 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
         MovieDetailsFragment fragment = new MovieDetailsFragment();
 
         Bundle args = new Bundle();
-        args.putParcelable(ARG_MOVIE_DATA, (Parcelable) movie);
+        args.putParcelable(ARG_MOVIE_DATA, new ParcelableDiscoverMovie(movie));
         fragment.setArguments(args);
 
         return fragment;
@@ -132,6 +137,34 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
 
         if(gallery.size()>1)
             mViewPager.setCurrentItem(1);
+
+        initPosterGallery(movieMedia.getPosters());
+    }
+
+    private void initPosterGallery(final List<ImageMovie> posters){
+        ImageView poster = (ImageView) getView().findViewById(R.id.movieDetailsPoster);
+        poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPostersGallery(posters);
+            }
+        });
+    }
+
+    private void openPostersGallery(List<ImageMovie> posters){
+        List<ParcelableImageMovie> parcelablePosters = converToParcelable(posters);
+
+        Intent postersGallery = new Intent(getActivity(), GalleryActivity.class);
+        postersGallery.putParcelableArrayListExtra(GalleryActivity.ARG_IMAGES_MOVIE, (ArrayList<? extends Parcelable>) parcelablePosters);
+        startActivity(postersGallery);
+    }
+
+    private List<ParcelableImageMovie> converToParcelable(List<ImageMovie> images){
+        List<ParcelableImageMovie> parcelableImages = new ArrayList<>();
+        for(ImageMovie image : images)
+            parcelableImages.add(new ParcelableImageMovie(image));
+
+        return parcelableImages;
     }
 
     @Override
@@ -217,11 +250,18 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
             ImageView galleryImage = (ImageView) rootView.findViewById(R.id.galleryImageMovie);
             Picasso.with(mContext).load(image.getUrl(ImageMovie.Sizes.w500)).into(galleryImage);
 
-//            setOnItemClickListener(rootView, position, image);
+            setOnItemClickListener(rootView, position);
+
+            TextView rate = (TextView) rootView.findViewById(R.id.galleryImageVoteRate);
+            rate.setText(getRate(image.getVoteAverage()));
 
             container.addView(rootView);
 
             return rootView;
+        }
+
+        private String getRate(double average){
+            return String.valueOf(Math.round(average*100)/100);
         }
 
         @Override
@@ -229,13 +269,30 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
             container.removeView((View) object);
         }
 
-        private void setOnItemClickListener(View layout, final int position, final ImageMovie imageMovie){
+        private void setOnItemClickListener(View layout, final int position){
             layout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, imageMovie.getUrl(ImageMovie.Sizes.original), Toast.LENGTH_SHORT).show();
+                    openGallery(position);
                 }
             });
+        }
+
+        private void openGallery(int position){
+            Intent galleryIntent = new Intent(mContext, GalleryActivity.class);
+            galleryIntent.putExtra(GalleryActivity.ARG_POSITION, position);
+            galleryIntent.putParcelableArrayListExtra(GalleryActivity.ARG_IMAGES_MOVIE, (ArrayList<? extends Parcelable>) getParcelableImages());
+
+            mContext.startActivity(galleryIntent);
+        }
+
+        private List<ParcelableImageMovie> getParcelableImages(){
+            List<ParcelableImageMovie> images = new ArrayList<>();
+
+            for(ImageMovie image : this.mImages)
+                images.add(new ParcelableImageMovie(image));
+
+            return images;
         }
 
 

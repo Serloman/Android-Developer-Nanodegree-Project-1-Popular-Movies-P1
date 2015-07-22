@@ -8,5 +8,6 @@
     <string name="label_most_rated">Most Rated</string>
 
     <string name="error_getting_movie">There was an error trying to get the movie info</string>
+    <string name="error_image_movie">There was an error trying to get the image</string>
 
 </resources>

@@ -176,7 +176,6 @@ public class TheMovieDb_Api {
 
     public CreditsMovieApi getMovieCredits(String idMovie){
         return mService.creditsMovie(idMovie, mApiKey);
-
     }
 
     public void getMovieCreditsAsync(int idMovie, MovieCreditsCallback creditsCallback){

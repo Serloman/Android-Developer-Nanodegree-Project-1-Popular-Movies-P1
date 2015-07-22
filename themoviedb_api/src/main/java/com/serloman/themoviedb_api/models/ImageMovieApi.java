@@ -13,6 +13,11 @@ public class ImageMovieApi implements ImageMovie {
     private String iso_639_1;
 
     @Override
+    public String getRelativePath() {
+        return file_path;
+    }
+
+    @Override
     public String getUrl(Sizes size) {
         return API_ENDPOINT + "/" + size.toString() + "/" + file_path;
     }

@@ -15,6 +15,7 @@ public interface ImageMovie {
         original
     }
 
+    String getRelativePath();
     String getUrl(Sizes size);
     int getHeight();
     int getWidth();

@@ -5,15 +5,12 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/galleryImageMovie"
-        android:scaleType="centerCrop" />
+        android:id="@+id/galleryFullItemImageView"
+        android:layout_gravity="center" />
 
-    <TextView
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/galleryImageVoteRate"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="@dimen/card_margin"
-        android:visibility="gone" />
+        android:id="@+id/galleryFullItemProgressBar"
+        android:layout_gravity="center" />
 </FrameLayout>

@@ -34,7 +34,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
     private MovieSelectedListener mMovieListener;
 
     public MoviesAdapter(Context context, List<Movie> dataSet, MovieSelectedListener listener){
-        this(context, dataSet, ImageMovie.Sizes.w185, listener);
+        this(context, dataSet, ImageMovie.Sizes.w342, listener);
     }
 
     public MoviesAdapter(Context context, List<Movie> dataSet, ImageMovie.Sizes size, MovieSelectedListener listener){
