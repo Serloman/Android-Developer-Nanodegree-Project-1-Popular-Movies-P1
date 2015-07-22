@@ -2,7 +2,6 @@ package com.serloman.popularmovies;
 
 import android.content.Context;
 
-import com.serloman.themoviedb_api.TheMovieDb_Api;
 import com.serloman.themoviedb_api.models.Movie;
 
 import java.util.List;
@@ -23,6 +22,6 @@ public class PopularMoviesLoader extends MoviesLoader {
     public List<Movie> loadInBackground() {
         DefaultTheMovieDbApi api = new DefaultTheMovieDbApi(getContext());
 
-        return api.popularMovies(getPage());
+        return api.getPopularMovies(getPage());
     }
 }

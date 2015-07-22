@@ -1,5 +1,6 @@
 package com.serloman.themoviedb_api;
 
+import com.serloman.themoviedb_api.models.CreditsMovieApi;
 import com.serloman.themoviedb_api.models.FullMovieApi;
 import com.serloman.themoviedb_api.models.MovieImagesApi;
 import com.serloman.themoviedb_api.models.MovieListApi;
@@ -30,4 +31,7 @@ public interface TheMovieDb_Service {
 
     @GET("/movie/top_rated")
     MovieListApi topRatedMovies(@Query("page") String page, @Query("api_key") String api_key);
+
+    @GET("/movie/{movie}/credits")
+    CreditsMovieApi creditsMovie(@Path("movie") String movie, @Query("api_key") String api_key);
 }

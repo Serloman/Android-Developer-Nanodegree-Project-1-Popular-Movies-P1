@@ -21,6 +21,6 @@ public class TopRatedMoviesLoader extends MoviesLoader {
     @Override
     public List<Movie> loadInBackground() {
         DefaultTheMovieDbApi api = new DefaultTheMovieDbApi(getContext());
-        return api.topRatedMovies(getPage());
+        return api.getTopRatedMovies(getPage());
     }
 }
