@@ -102,8 +102,6 @@ public class MainActivity extends AppCompatActivity implements BasicMovieListFra
 
     @Override
     public void openMovie(Movie movie) {
-//        Toast.makeText(getActivity(), "I'm " + movie.getTitle(), Toast.LENGTH_SHORT).show();
-
         Intent openMovieIntent = new Intent(this, MovieDetailsActivity.class);
         openMovieIntent.putExtra(MovieDetailsActivity.ARG_MOVIE_DATA, new ParcelableDiscoverMovie(movie));
         startActivity(openMovieIntent);
