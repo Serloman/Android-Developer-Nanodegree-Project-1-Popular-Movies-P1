@@ -31,7 +31,8 @@
                 android:textAppearance="?android:attr/textAppearanceMediumInverse"
                 android:text="Title"
                 android:id="@+id/movieDetailsTitle"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:gravity="center" />
 
             <TextView
                 android:layout_width="wrap_content"

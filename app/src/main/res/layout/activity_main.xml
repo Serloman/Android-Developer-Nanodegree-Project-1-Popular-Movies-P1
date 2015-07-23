@@ -4,13 +4,20 @@
     android:background="@color/background_color"
     android:orientation="vertical">
 
-    <view
+    <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        class="android.support.v7.widget.Toolbar"
         android:id="@+id/toolbarMain"
         android:layout_gravity="center_horizontal|top"
-        android:background="@color/title_color" />
+        android:background="@color/title_color">
+
+        <Spinner
+            android:id="@+id/mainActivitySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </android.support.v7.widget.Toolbar>
 
     <FrameLayout
         android:layout_width="match_parent"

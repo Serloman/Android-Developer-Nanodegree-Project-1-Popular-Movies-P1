@@ -27,7 +27,7 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolder>{
 
     private Context mContext;
-    private List<Movie> mDataSet;
+    private List<Movie> mMovieDataSet;
     private ImageMovie.Sizes mSize;
     private int mDefaultColor;
 
@@ -39,7 +39,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     public MoviesAdapter(Context context, List<Movie> dataSet, ImageMovie.Sizes size, MovieSelectedListener listener){
         this.mContext = context;
-        this.mDataSet = dataSet;
+        this.mMovieDataSet = dataSet;
         this.mSize = size;
         this.mMovieListener = listener;
 
@@ -53,14 +53,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
         return new MovieHolder(movieSingleView, new MovieHolder.MovieClickedListener() {
             @Override
             public void onClick(int position) {
-                mMovieListener.onMovieSelected(mDataSet.get(position));
+                mMovieListener.onMovieSelected(mMovieDataSet.get(position));
             }
         });
     }
 
     @Override
     public void onBindViewHolder(MovieHolder movieHolder, int i) {
-        Movie movie = mDataSet.get(i);
+        Movie movie = mMovieDataSet.get(i);
 
         final TextView titleView = movieHolder.getTitleView();
         final ImageView posterView = movieHolder.getPosterView();
@@ -102,7 +102,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MovieHolde
 
     @Override
     public int getItemCount() {
-        return mDataSet.size();
+        return mMovieDataSet.size();
+    }
+
+    public void addMoreMovies(List<Movie> movies){
+        for(Movie movie : movies)
+            this.mMovieDataSet.add(movie);
+
+        this.notifyDataSetChanged();
     }
 
     public static class MovieHolder extends RecyclerView.ViewHolder{

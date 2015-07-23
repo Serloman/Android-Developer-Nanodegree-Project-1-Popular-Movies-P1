@@ -7,13 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.serloman.popularmovies.models.ParcelableDiscoverMovie;
 import com.serloman.popularmovies.movieDetails.MovieDetailsActivity;
 import com.serloman.popularmovies.movieList.BasicMovieListFragment;
 import com.serloman.themoviedb_api.models.Movie;
 
-public class MainActivity extends AppCompatActivity implements BasicMovieListFragment.OpenMovieListener {
+public class MainActivity extends AppCompatActivity implements BasicMovieListFragment.OpenMovieListener, AdapterView.OnItemSelectedListener {
 
     public final static int TYPE_POPULARITY = 0;
     public final static int TYPE_RATED = 1;
@@ -30,9 +34,21 @@ public class MainActivity extends AppCompatActivity implements BasicMovieListFra
     }
 
     private void initToolbar(){
+//        initSpinner();
         mToolbar = (Toolbar) findViewById(R.id.toolbarMain);
 
         this.setSupportActionBar(mToolbar);
+    }
+
+    @Deprecated
+    private void initSpinner(){
+        Spinner spinner = (Spinner) findViewById(R.id.mainActivitySpinner);
+        ArrayAdapter<CharSequence> spinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.type_movies_array, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
+        spinner.setOnItemSelectedListener(this);
+        spinner.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -106,5 +122,22 @@ public class MainActivity extends AppCompatActivity implements BasicMovieListFra
         Intent openMovieIntent = new Intent(this, MovieDetailsActivity.class);
         openMovieIntent.putExtra(MovieDetailsActivity.ARG_MOVIE_DATA, new ParcelableDiscoverMovie(movie));
         startActivity(openMovieIntent);
+    }
+
+    @Deprecated
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String name = parent.getItemAtPosition(position).toString();
+
+        if(name.compareTo(getString(R.string.label_popularity))==0)
+            selectFragment(TYPE_POPULARITY);
+        else if(name.compareTo(getString(R.string.label_most_rated))==0)
+            selectFragment(TYPE_RATED);
+    }
+
+    @Deprecated
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

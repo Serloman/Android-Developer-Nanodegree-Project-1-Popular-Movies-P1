@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.serloman.popularmovies.R;
 import com.serloman.popularmovies.models.ParcelableImageMovie;
@@ -23,7 +24,7 @@ import java.util.List;
 /**
  * Created by Serloman on 22/07/2015.
  */
-public class GalleryFragment extends Fragment {
+public class GalleryFragment extends Fragment implements ViewPager.OnPageChangeListener{
 
     public static final String ARG_POSITION = "ARG_POSITION";
     public static final String ARG_IMAGES_MOVIE = "ARG_IMAGES_MOVIE";
@@ -41,6 +42,8 @@ public class GalleryFragment extends Fragment {
 
     private ViewPager mViewPager;
     private PagerAdapter mAdapter;
+
+    private TextView mCounter;
     private ViewPager.OnPageChangeListener pageChangeListener;
 
     public GalleryFragment(){ }
@@ -50,6 +53,7 @@ public class GalleryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.gallery_fragment, container, false);
 
+        mCounter = (TextView) rootView.findViewById(R.id.galleryCounter);
         initViewPager(rootView);
 
         return rootView;
@@ -73,7 +77,10 @@ public class GalleryFragment extends Fragment {
         mAdapter = new GalleryFragmentPagerAdapter(getChildFragmentManager(), getImages());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setCurrentItem(getFirstPosition());
+        updateCounterText(getFirstPosition());
 
+
+        mViewPager.addOnPageChangeListener(this);
         mViewPager.addOnPageChangeListener(pageChangeListener);
     }
 
@@ -83,6 +90,25 @@ public class GalleryFragment extends Fragment {
 
     private int getFirstPosition(){
         return this.getArguments().getInt(ARG_POSITION);
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        updateCounterText(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    private void updateCounterText(int position){
+        mCounter.setText((position + 1) + "/" + this.mAdapter.getCount());
     }
 
     private static class GalleryFragmentPagerAdapter extends FragmentPagerAdapter{

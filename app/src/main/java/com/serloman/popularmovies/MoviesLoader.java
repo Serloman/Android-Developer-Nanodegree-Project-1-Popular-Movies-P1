@@ -31,6 +31,16 @@ public abstract class MoviesLoader extends AsyncTaskLoader<List<Movie>> {
         return mPage;
     }
 
+    public void nextPage(){
+        loadPage(mPage++);
+    }
+
+    public void loadPage(int page){
+        this.mPage = page;
+
+        onContentChanged();
+    }
+
     @Override
     protected void onStartLoading() {
         if (takeContentChanged())

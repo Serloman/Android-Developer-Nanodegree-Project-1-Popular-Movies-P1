@@ -2,6 +2,7 @@ package com.serloman.popularmovies.movieDetails;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -102,7 +103,6 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
 
         ((TextView) getView().findViewById(R.id.scoreVoteAverageTextView)).setText(String.valueOf(movie.getVoteAverage()));
         ((TextView) getView().findViewById(R.id.scoreVoteCountTextView)).setText(String.valueOf(movie.getVoteCount()));
-        getView().findViewById(R.id.movieDetailsScore).setVisibility(View.VISIBLE);
 
         ((TextView) getView().findViewById(R.id.movieDetailsGenres)).setText(getGenres(movie));
     }
@@ -135,7 +135,6 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
         AppCompatActivity activity = (AppCompatActivity) this.getActivity();
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.movieDetailsToolbar);
 
-
         activity.setSupportActionBar(toolbar);
 
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) getView().findViewById(R.id.movieDetailsCollapsingToolbar);
@@ -145,8 +144,6 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
     }
 
     private void initMovieData(Movie movie){
-        getView().findViewById(R.id.movieDetailsScore).setVisibility(View.INVISIBLE);
-
         ImageView poster = (ImageView) getView().findViewById(R.id.movieDetailsPoster);
         Picasso.with(getActivity().getApplicationContext()).load(movie.getPosterUrl(ImageMovie.Sizes.w185)).into(poster);
 
@@ -159,11 +156,17 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
         mViewPager.setPageMargin(20);
         mViewPager.setClipToPadding(false);
 
-        int paddingSiblings = 120;
+        int paddingSiblings = getPaddingSiblings();
         mViewPager.setPadding(paddingSiblings, 0, paddingSiblings, 0);
 
         DefaultTheMovieDbApi api = new DefaultTheMovieDbApi(getActivity());
         api.getMovieImagesAsync(movie.getId(), this);
+    }
+
+    private int getPaddingSiblings(){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            return 480;
+        return 120;
     }
 
     @Override

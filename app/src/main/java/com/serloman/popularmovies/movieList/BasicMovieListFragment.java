@@ -13,16 +13,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.serloman.popularmovies.EndlessScrollListener;
+import com.serloman.popularmovies.EndlessScrollListener.OnEndlessScrollListener;
+import com.serloman.popularmovies.MoviesLoader;
 import com.serloman.popularmovies.R;
 import com.serloman.themoviedb_api.calls.MovieListCallback;
 import com.serloman.themoviedb_api.models.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Serloman on 20/07/2015.
  */
-public abstract class BasicMovieListFragment extends Fragment implements MovieListCallback, LoaderManager.LoaderCallbacks<List<Movie>>, MoviesAdapter.MovieSelectedListener {
+public abstract class BasicMovieListFragment extends Fragment implements MovieListCallback, LoaderManager.LoaderCallbacks<List<Movie>>, MoviesAdapter.MovieSelectedListener, OnEndlessScrollListener {
 
     public interface OpenMovieListener{
         void openMovie(Movie movie);
@@ -30,6 +34,7 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
 
     public static final String ARG_PORTRAIT_SPAN_COUNT = "ARG_PORTRAIT_SPAN_COUNT";
     public static final String ARG_LANDSCAPE_SPAN_COUNT = "ARG_LANDSCAPE_SPAN_COUNT";
+    public static final int LOADER_ID = 0;
 
     public BasicMovieListFragment(){ }
 
@@ -37,13 +42,13 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
     private MoviesAdapter mMoviesAdapter;
     private OpenMovieListener mListener;
 
-    private int mOrientation;
+//    private int mOrientation;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movie_grid_fragment, container, false);
 
-        mOrientation = getResources().getConfiguration().orientation;
+//        mOrientation = getResources().getConfiguration().orientation;
 
         initRecyclerGridView(rootView);
 
@@ -54,7 +59,7 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
     public void onStart() {
         super.onStart();
 
-        getLoaderManager().initLoader(0, null, this);
+        getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
     @Override
@@ -68,19 +73,23 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
         }
     }
 
+/** /
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         mOrientation = newConfig.orientation;
     }
-
+/**/
     private void initRecyclerGridView(View rootView){
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.movieGridRecyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getSpanColumn()));
         mRecyclerView.setHasFixedSize(true);
-
         mRecyclerView.addItemDecoration(new MovieDecoration(getSpanColumn(), 20));
+        mRecyclerView.addOnScrollListener(new EndlessScrollListener(this));
+
+        mMoviesAdapter = new MoviesAdapter(getActivity(), new ArrayList<Movie>(), this);
+        mRecyclerView.setAdapter(mMoviesAdapter);
     }
 
     private int getPortraitSpanCount(){
@@ -92,18 +101,26 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
     }
 
     private int getSpanColumn(){
-        if(mOrientation==Configuration.ORIENTATION_LANDSCAPE)
+        if(getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE)
             return getLandscapeSpanCount();
         return getPortraitSpanCount();
     }
 
+    @Override
+    public void onLoadPage(int numPage) {
+        Loader loader = getLoaderManager().getLoader(LOADER_ID);
+        MoviesLoader moviesLoader = (MoviesLoader)loader;
+
+        getView().findViewById(R.id.movieGridNextPageLoading).setVisibility(View.VISIBLE);
+        moviesLoader.loadPage(numPage);
+    }
 
     @Override
     public void onMovieListDataReceived(List<Movie> movies) {
-        mMoviesAdapter = new MoviesAdapter(getActivity(), movies, this);
-        mRecyclerView.setAdapter(mMoviesAdapter);
+        mMoviesAdapter.addMoreMovies(movies);
 
         getView().findViewById(R.id.movieGridProgressBar).setVisibility(View.GONE);
+        getView().findViewById(R.id.movieGridNextPageLoading).setVisibility(View.GONE);
     }
 
     @Override
@@ -114,6 +131,11 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
     @Override
     public void onMovieSelected(Movie movie) {
         mListener.openMovie(movie);
+    }
+
+    @Override
+    public Loader<List<Movie>> onCreateLoader(int id, Bundle args) {
+        return null;
     }
 
     @Override
