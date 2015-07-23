@@ -6,7 +6,7 @@ An app to help users discover popular and recent movies. It has a clean UI, sync
 - [Picasso](http://square.github.io/picasso/): To download and cache the posters and images of the movies
 
 #Screenshots:
-[![screenshot_1.png][1]]
+[![screenshot_1.png][1]][1]
 
 Note:
 The api key for themoviedb has to be included in the app's manifest
