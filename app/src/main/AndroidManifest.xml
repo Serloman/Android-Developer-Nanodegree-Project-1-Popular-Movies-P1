@@ -25,6 +25,10 @@
         <activity
             android:name=".movieDetails.MovieDetailsActivity"
             android:label="@string/app_name">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:configChanges="orientation"
+                android:value=".MainActivity" />
         </activity>
 
         <activity

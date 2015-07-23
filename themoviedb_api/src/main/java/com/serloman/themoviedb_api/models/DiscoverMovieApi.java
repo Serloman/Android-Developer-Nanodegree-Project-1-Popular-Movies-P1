@@ -13,6 +13,8 @@ public class DiscoverMovieApi implements Movie{
     private int id;
     private String poster_path;
     private String overview;
+    private double vote_average;
+    private int vote_count;
 
     @Override
     public String toString() {
@@ -32,6 +34,16 @@ public class DiscoverMovieApi implements Movie{
     @Override
     public String getOverview() {
         return overview;
+    }
+
+    @Override
+    public double getVoteAverage() {
+        return vote_average;
+    }
+
+    @Override
+    public int getVoteCount() {
+        return vote_count;
     }
 
     @Override

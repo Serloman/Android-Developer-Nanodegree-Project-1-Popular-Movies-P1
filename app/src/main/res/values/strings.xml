@@ -10,4 +10,7 @@
     <string name="error_getting_movie">There was an error trying to get the movie info</string>
     <string name="error_image_movie">There was an error trying to get the image</string>
 
+    <string name="genres">Genres</string>
+    <string name="homepage">Homepage</string>
+
 </resources>

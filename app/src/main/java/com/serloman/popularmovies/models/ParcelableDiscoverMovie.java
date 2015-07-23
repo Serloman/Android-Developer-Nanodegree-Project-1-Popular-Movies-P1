@@ -19,6 +19,8 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
     private String mBackDropPath;
     private String mPosterPath;
     private String mOverview;
+    private double mVoteAverage;
+    private int mVoteCount;
 
     public ParcelableDiscoverMovie(Movie movie){
         this.mId = movie.getId();
@@ -29,6 +31,8 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
         this.mBackDropPath = movie.getBackdropRelativePath();
         this.mPosterPath = movie.getPosterRelativePath();
         this.mOverview = movie.getOverview();
+        this.mVoteAverage = movie.getVoteAverage();
+        this.mVoteCount = movie.getVoteCount();
     }
 
     public ParcelableDiscoverMovie(Parcel in){
@@ -48,6 +52,16 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
     @Override
     public String getOverview() {
         return mOverview;
+    }
+
+    @Override
+    public double getVoteAverage() {
+        return mVoteAverage;
+    }
+
+    @Override
+    public int getVoteCount() {
+        return mVoteCount;
     }
 
     @Override
@@ -89,6 +103,8 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
         dest.writeString(mBackDropPath);
         dest.writeString(mPosterPath);
         dest.writeString(mOverview);
+        dest.writeDouble(mVoteAverage);
+        dest.writeInt(mVoteCount);
     }
 
     private void readFromParcel(Parcel in){
@@ -98,6 +114,8 @@ public class ParcelableDiscoverMovie implements Parcelable, Movie {
         mBackDropPath = in.readString();
         mPosterPath = in.readString();
         mOverview = in.readString();
+        mVoteAverage = in.readDouble();
+        mVoteCount = in.readInt();
     }
 
     private String getImageUrl(ImageMovie.Sizes size, String pathImage){

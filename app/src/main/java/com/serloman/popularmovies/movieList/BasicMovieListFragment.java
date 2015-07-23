@@ -1,6 +1,7 @@
 package com.serloman.popularmovies.movieList;
 
 import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -27,7 +28,8 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
         void openMovie(Movie movie);
     }
 
-    public static final String ARG_SPAN_COUNT = "ARG_SPAN_COUNT";
+    public static final String ARG_PORTRAIT_SPAN_COUNT = "ARG_PORTRAIT_SPAN_COUNT";
+    public static final String ARG_LANDSCAPE_SPAN_COUNT = "ARG_LANDSCAPE_SPAN_COUNT";
 
     public BasicMovieListFragment(){ }
 
@@ -35,9 +37,13 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
     private MoviesAdapter mMoviesAdapter;
     private OpenMovieListener mListener;
 
+    private int mOrientation;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movie_grid_fragment, container, false);
+
+        mOrientation = getResources().getConfiguration().orientation;
 
         initRecyclerGridView(rootView);
 
@@ -62,16 +68,35 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
         }
     }
 
-    private void initRecyclerGridView(View rootView){
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.movieGridRecyclerView);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getSpanCount()));
-        mRecyclerView.addItemDecoration(new MovieDecoration(20));
-        mRecyclerView.setHasFixedSize(true);
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        mOrientation = newConfig.orientation;
     }
 
-    private int getSpanCount(){
-        return this.getArguments().getInt(ARG_SPAN_COUNT, 2);
+    private void initRecyclerGridView(View rootView){
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.movieGridRecyclerView);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getSpanColumn()));
+        mRecyclerView.setHasFixedSize(true);
+
+        mRecyclerView.addItemDecoration(new MovieDecoration(getSpanColumn(), 20));
     }
+
+    private int getPortraitSpanCount(){
+        return this.getArguments().getInt(ARG_PORTRAIT_SPAN_COUNT, 2);
+    }
+
+    private int getLandscapeSpanCount(){
+        return this.getArguments().getInt(ARG_LANDSCAPE_SPAN_COUNT, 4);
+    }
+
+    private int getSpanColumn(){
+        if(mOrientation==Configuration.ORIENTATION_LANDSCAPE)
+            return getLandscapeSpanCount();
+        return getPortraitSpanCount();
+    }
+
 
     @Override
     public void onMovieListDataReceived(List<Movie> movies) {

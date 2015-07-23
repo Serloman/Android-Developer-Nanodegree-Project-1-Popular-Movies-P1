@@ -13,6 +13,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +31,7 @@ import com.serloman.popularmovies.models.ParcelableImageMovie;
 import com.serloman.themoviedb_api.calls.MovieCallback;
 import com.serloman.themoviedb_api.calls.MovieImagesCallback;
 import com.serloman.themoviedb_api.models.FullMovie;
+import com.serloman.themoviedb_api.models.Genre;
 import com.serloman.themoviedb_api.models.ImageMovie;
 import com.serloman.themoviedb_api.models.Movie;
 import com.serloman.themoviedb_api.models.MovieImages;
@@ -90,7 +94,36 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
 
     @Override
     public void onMovieDataReceived(FullMovie movie) {
-//        initExtras();
+        ((TextView) getView().findViewById(R.id.movieDetailsTagline)).setText(movie.getTagline());
+        ((TextView) getView().findViewById(R.id.movieDetailsReleaseDate)).setText(movie.getReleaseDate());
+        TextView homepage = ((TextView) getView().findViewById(R.id.movieDetailsHomePage));
+        homepage.setText(getHomepageLink(movie.getHomePage()));
+        homepage.setMovementMethod(LinkMovementMethod.getInstance());
+
+        ((TextView) getView().findViewById(R.id.scoreVoteAverageTextView)).setText(String.valueOf(movie.getVoteAverage()));
+        ((TextView) getView().findViewById(R.id.scoreVoteCountTextView)).setText(String.valueOf(movie.getVoteCount()));
+        getView().findViewById(R.id.movieDetailsScore).setVisibility(View.VISIBLE);
+
+        ((TextView) getView().findViewById(R.id.movieDetailsGenres)).setText(getGenres(movie));
+    }
+
+    private Spanned getHomepageLink(String homepage){
+        return Html.fromHtml("<a href='" + homepage + "'>" + homepage + "</a>");
+    }
+
+    private String getGenres(FullMovie movie){
+        String genres = "";
+
+        List<Genre> genresList = movie.getListGenres();
+
+        if(genresList.size()>0){
+            genres+=genresList.get(0).getName();
+
+            for(int i=1;i<genresList.size();i++)
+                genres+=", " + genresList.get(0).getName();
+        }
+
+        return genres;
     }
 
     private void initBackDrop(Movie movie){
@@ -102,18 +135,23 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
         AppCompatActivity activity = (AppCompatActivity) this.getActivity();
         Toolbar toolbar = (Toolbar) getView().findViewById(R.id.movieDetailsToolbar);
 
+
         activity.setSupportActionBar(toolbar);
 
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) getView().findViewById(R.id.movieDetailsCollapsingToolbar);
         collapsingToolbarLayout.setTitle(movie.getTitle());
+
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void initMovieData(Movie movie){
+        getView().findViewById(R.id.movieDetailsScore).setVisibility(View.INVISIBLE);
+
         ImageView poster = (ImageView) getView().findViewById(R.id.movieDetailsPoster);
         Picasso.with(getActivity().getApplicationContext()).load(movie.getPosterUrl(ImageMovie.Sizes.w185)).into(poster);
 
-        TextView overview = (TextView) getView().findViewById(R.id.movieDetailsOverview);
-        overview.setText(movie.getOverview());
+        ((TextView) getView().findViewById(R.id.movieDetailsTitle)).setText(movie.getTitle());
+        ((TextView) getView().findViewById(R.id.movieDetailsOverview)).setText(movie.getOverview());
     }
 
     private void initGallery(Movie movie){

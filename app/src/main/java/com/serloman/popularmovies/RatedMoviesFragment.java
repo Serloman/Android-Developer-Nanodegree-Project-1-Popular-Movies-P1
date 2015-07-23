@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.content.Loader;
 
 import com.serloman.popularmovies.movieList.BasicMovieListFragment;
-import com.serloman.themoviedb_api.TheMovieDb_Api;
 import com.serloman.themoviedb_api.models.Movie;
 
 import java.util.List;
@@ -15,14 +14,15 @@ import java.util.List;
 public class RatedMoviesFragment extends BasicMovieListFragment{
 
     public static RatedMoviesFragment newInstance(){
-        return newInstance(2);
+        return newInstance(2, 4);
     }
 
-    public static RatedMoviesFragment newInstance(int spanCount){
+    public static RatedMoviesFragment newInstance(int spanCount, int landscapeSpanCount){
         RatedMoviesFragment fragment = new RatedMoviesFragment();
 
         Bundle args = new Bundle();
-        args.putInt(BasicMovieListFragment.ARG_SPAN_COUNT, spanCount);
+        args.putInt(BasicMovieListFragment.ARG_PORTRAIT_SPAN_COUNT, spanCount);
+        args.putInt(BasicMovieListFragment.ARG_LANDSCAPE_SPAN_COUNT, landscapeSpanCount);
         fragment.setArguments(args);
 
         return fragment;

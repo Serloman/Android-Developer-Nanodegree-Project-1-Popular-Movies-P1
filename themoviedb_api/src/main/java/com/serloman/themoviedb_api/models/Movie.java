@@ -13,6 +13,8 @@ public interface Movie {
     String getTitle();
     boolean isAdult();
     String getOverview();
+    double getVoteAverage();
+    int getVoteCount();
 
     String getBackdropRelativePath();
     String getPosterRelativePath();
