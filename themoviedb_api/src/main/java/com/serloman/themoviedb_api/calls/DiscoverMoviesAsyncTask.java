@@ -37,9 +37,13 @@ public class DiscoverMoviesAsyncTask extends AsyncTask<String, Integer, List<Mov
 
     @Override
     protected void onPostExecute(List<Movie> movies) {
-        if(movies!=null)
-            mMovieCallback.onMovieListDataReceived(movies);
-        else
-            mMovieCallback.onError(null);
+        try {
+            if (movies != null)
+                mMovieCallback.onMovieListDataReceived(movies);
+            else
+                mMovieCallback.onError(new Exception("Error getting movies"));
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

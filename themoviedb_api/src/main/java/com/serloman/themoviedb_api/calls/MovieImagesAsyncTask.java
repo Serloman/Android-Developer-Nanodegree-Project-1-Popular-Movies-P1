@@ -28,9 +28,13 @@ public class MovieImagesAsyncTask extends AsyncTask<String, Integer, MovieImages
 
     @Override
     protected void onPostExecute(MovieImages movieMedia) {
-        if(movieMedia!=null)
-            mMovieCallback.onMovieMediaDataReceived(movieMedia);
-        else
-            mMovieCallback.onError(null);
+        try {
+            if (movieMedia != null)
+                mMovieCallback.onMovieMediaDataReceived(movieMedia);
+            else
+                mMovieCallback.onError(new Exception("Error getting images"));
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

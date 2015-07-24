@@ -30,9 +30,13 @@ public class MovieCreditsAsyncTask extends AsyncTask<String, Integer, CreditsMov
 
     @Override
     protected void onPostExecute(CreditsMovie creditsMovie) {
-        if(creditsMovie!=null)
-            mMovieCallback.onMovieCreditsDataReceived(creditsMovie);
-        else
-            mMovieCallback.onError(null);
+        try{
+            if(creditsMovie!=null)
+                mMovieCallback.onMovieCreditsDataReceived(creditsMovie);
+            else
+                mMovieCallback.onError(new Exception("Error getting credits"));
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

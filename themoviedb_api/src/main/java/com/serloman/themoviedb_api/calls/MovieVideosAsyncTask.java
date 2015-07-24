@@ -34,9 +34,13 @@ public class MovieVideosAsyncTask extends AsyncTask<String, Integer, List<VideoM
 
     @Override
     protected void onPostExecute(List<VideoMovie> videos) {
-        if(videos!=null)
-            mMovieCallback.onMovieVideosDataReceived(videos);
-        else
-            mMovieCallback.onError(null);
+        try {
+            if (videos != null)
+                mMovieCallback.onMovieVideosDataReceived(videos);
+            else
+                mMovieCallback.onError(new Exception("Error getting videos"));
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
