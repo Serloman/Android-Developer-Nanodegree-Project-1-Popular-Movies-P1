@@ -1,5 +1,3 @@
 <resources>
     <string name="app_name">The MovieDB API</string>
-
-    <string name="notify_user_network_error">There was an error trying to get movie data</string>
 </resources>

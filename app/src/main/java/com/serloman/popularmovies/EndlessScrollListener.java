@@ -72,6 +72,9 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
 
     public void pageLoadFailed(){
         mCurrentPage--;
+        mCurrentPage = Math.max(0, mCurrentPage);
+
         mPreviousTotal -= mVisibleThreshold;
+        mPreviousTotal = Math.max(0, mPreviousTotal);
     }
 }

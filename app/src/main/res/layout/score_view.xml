@@ -36,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLargeInverse"
                     android:id="@+id/scoreVoteAverageTextView"
-                    android:text="7.8" />
+                    android:text="   " />
 
                 <TextView
                     android:layout_width="match_parent"

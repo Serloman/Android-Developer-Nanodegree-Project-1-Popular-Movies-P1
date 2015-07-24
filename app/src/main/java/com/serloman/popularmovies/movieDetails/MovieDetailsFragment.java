@@ -116,7 +116,7 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
     }
 
     private void notifyUser(){
-        Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getActivity().getResources().getString(R.string.notify_user_network_error), Toast.LENGTH_SHORT).show();
     }
 
     private Spanned getHomepageLink(String homepage){

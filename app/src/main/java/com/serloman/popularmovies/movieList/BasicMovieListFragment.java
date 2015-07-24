@@ -41,14 +41,11 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
     private RecyclerView mRecyclerView;
     private MoviesAdapter mMoviesAdapter;
     private OpenMovieListener mListener;
-
-//    private int mOrientation;
+    private EndlessScrollListener mEndlessScrollListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.movie_grid_fragment, container, false);
-
-//        mOrientation = getResources().getConfiguration().orientation;
 
         initRecyclerGridView(rootView);
 
@@ -73,20 +70,14 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
         }
     }
 
-/** /
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        mOrientation = newConfig.orientation;
-    }
-/**/
     private void initRecyclerGridView(View rootView){
+        mEndlessScrollListener = new EndlessScrollListener(this);
+
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.movieGridRecyclerView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getSpanColumn()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new MovieDecoration(getSpanColumn(), 20));
-        mRecyclerView.addOnScrollListener(new EndlessScrollListener(this));
+        mRecyclerView.addOnScrollListener(mEndlessScrollListener);
 
         mMoviesAdapter = new MoviesAdapter(getActivity(), new ArrayList<Movie>(), this);
         mRecyclerView.setAdapter(mMoviesAdapter);
@@ -117,6 +108,9 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
 
     @Override
     public void onMovieListDataReceived(List<Movie> movies) {
+        if(movies.size()<1)
+            onError(null);
+
         mMoviesAdapter.addMoreMovies(movies);
 
         getView().findViewById(R.id.movieGridProgressBar).setVisibility(View.GONE);
@@ -125,7 +119,8 @@ public abstract class BasicMovieListFragment extends Fragment implements MovieLi
 
     @Override
     public void onError(Exception ex) {
-        Toast.makeText(getActivity(), getActivity().getString(R.string.error_getting_movie), Toast.LENGTH_SHORT).show();
+        mEndlessScrollListener.pageLoadFailed();
+        Toast.makeText(getActivity(), getActivity().getString(R.string.notify_user_network_error), Toast.LENGTH_SHORT).show();
     }
 
     @Override
