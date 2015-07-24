@@ -43,12 +43,13 @@
                 android:gravity="center" />
 
             <include
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 layout="@layout/score_view"
                 android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/single_item_margin"
-                android:layout_weight="1" />
+                android:layout_marginTop="@dimen/single_item_margin"
+                android:layout_marginBottom="@dimen/single_item_margin"
+                android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="wrap_content"

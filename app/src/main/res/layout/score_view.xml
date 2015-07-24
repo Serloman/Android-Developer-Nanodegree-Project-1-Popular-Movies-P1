@@ -5,7 +5,7 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="130dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center">
 
@@ -13,10 +13,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/imageView"
-            android:src="@drawable/ic_action_important"
+            android:src="@drawable/ic_star"
             android:layout_gravity="center"
             android:layout_marginRight="@dimen/card_margin"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:scaleType="fitEnd" />
 
         <LinearLayout
             android:orientation="vertical"
@@ -34,10 +35,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLargeInverse"
-                    android:id="@+id/scoreVoteAverageTextView" />
+                    android:id="@+id/scoreVoteAverageTextView"
+                    android:text="7.8" />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMediumInverse"
                     android:text="/10"
