@@ -38,6 +38,7 @@ import com.serloman.themoviedb_api.models.Movie;
 import com.serloman.themoviedb_api.models.MovieImages;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +96,13 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
 
     @Override
     public void onMovieDataReceived(FullMovie movie) {
+        if(movie!=null)
+            updateUI(movie);
+        else
+            notifyUser();
+    }
+
+    private void updateUI(FullMovie movie){
         ((TextView) getView().findViewById(R.id.movieDetailsTagline)).setText(movie.getTagline());
         ((TextView) getView().findViewById(R.id.movieDetailsReleaseDate)).setText(movie.getReleaseDate());
         TextView homepage = ((TextView) getView().findViewById(R.id.movieDetailsHomePage));
@@ -105,6 +113,10 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
         ((TextView) getView().findViewById(R.id.scoreVoteCountTextView)).setText(String.valueOf(movie.getVoteCount()));
 
         ((TextView) getView().findViewById(R.id.movieDetailsGenres)).setText(getGenres(movie));
+    }
+
+    private void notifyUser(){
+        Toast.makeText(getActivity(), "", Toast.LENGTH_SHORT).show();
     }
 
     private Spanned getHomepageLink(String homepage){
@@ -120,7 +132,7 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
             genres+=genresList.get(0).getName();
 
             for(int i=1;i<genresList.size();i++)
-                genres+=", " + genresList.get(0).getName();
+                genres+=", " + genresList.get(i).getName();
         }
 
         return genres;
@@ -245,7 +257,13 @@ public class MovieDetailsFragment extends Fragment implements MovieCallback, Loa
         @Override
         public FullMovie loadInBackground() {
             DefaultTheMovieDbApi api = new DefaultTheMovieDbApi(getContext());
-            return api.getMovieData(mIdMovie);
+            try {
+                return api.getMovieData(mIdMovie);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
         }
 
         @Override

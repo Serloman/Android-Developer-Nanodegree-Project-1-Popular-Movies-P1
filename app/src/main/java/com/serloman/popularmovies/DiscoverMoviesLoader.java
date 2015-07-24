@@ -6,6 +6,8 @@ import android.support.v4.content.AsyncTaskLoader;
 import com.serloman.themoviedb_api.TheMovieDb_Api;
 import com.serloman.themoviedb_api.models.Movie;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +33,12 @@ public class DiscoverMoviesLoader extends MoviesLoader {
     public List<Movie> loadInBackground() {
         DefaultTheMovieDbApi api = new DefaultTheMovieDbApi(getContext());
 
-        return api.discoverMovies(getPage(), mShortBy);
+        try {
+            return api.discoverMovies(getPage(), mShortBy);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 }

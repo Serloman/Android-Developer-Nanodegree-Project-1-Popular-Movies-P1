@@ -16,7 +16,7 @@ public class DefaultTheMovieDbApi extends TheMovieDb_Api{
     private final static String TAG = "TheMovieDbApiKey";
 
     public DefaultTheMovieDbApi(Context context) {
-        super(getTheMovieDbApiKey(context));
+        super(context, getTheMovieDbApiKey(context));
     }
 
     private static String getTheMovieDbApiKey(Context context){

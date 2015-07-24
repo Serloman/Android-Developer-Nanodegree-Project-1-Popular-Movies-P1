@@ -7,7 +7,6 @@ import java.util.List;
 /**
  * Created by Serloman on 22/07/2015.
  */
-public interface MovieVideosCallback {
+public interface MovieVideosCallback extends ConnectionCallback {
     void onMovieVideosDataReceived(List<VideoMovie> videos);
-    void onError(Exception ex);
 }

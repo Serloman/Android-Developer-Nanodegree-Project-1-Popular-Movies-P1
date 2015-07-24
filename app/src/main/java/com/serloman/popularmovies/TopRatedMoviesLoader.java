@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.serloman.themoviedb_api.models.Movie;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +23,12 @@ public class TopRatedMoviesLoader extends MoviesLoader {
     @Override
     public List<Movie> loadInBackground() {
         DefaultTheMovieDbApi api = new DefaultTheMovieDbApi(getContext());
-        return api.getTopRatedMovies(getPage());
+        try {
+            return api.getTopRatedMovies(getPage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
     }
 }
