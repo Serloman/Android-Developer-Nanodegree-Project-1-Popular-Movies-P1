@@ -23,19 +23,17 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
 
     public EndlessScrollListener(OnEndlessScrollListener listener)
     {
-        this.mListener = listener;
-
-        mVisibleThreshold = 5;
-        mCurrentPage = 1;
-        mPreviousTotal = 0;
-        mLoading = true;
+        this(listener, 5);
     }
 
     public EndlessScrollListener(OnEndlessScrollListener listener, int visibleThreshold)
     {
-        this(listener);
+        this.mListener = listener;
 
         this.mVisibleThreshold = visibleThreshold;
+        mCurrentPage = 1;
+        mPreviousTotal = 0;
+        mLoading = true;
     }
 
     public boolean isLoading(){
