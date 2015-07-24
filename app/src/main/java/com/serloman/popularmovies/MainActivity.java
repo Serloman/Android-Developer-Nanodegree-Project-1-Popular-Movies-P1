@@ -1,6 +1,8 @@
 package com.serloman.popularmovies;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,8 @@ import com.serloman.themoviedb_api.models.Movie;
 
 public class MainActivity extends AppCompatActivity implements BasicMovieListFragment.OpenMovieListener, AdapterView.OnItemSelectedListener {
 
+    public final static String ARG_MOVIE_TYPE_SELECTED = "ARG_MOVIE_TYPE_SELECTED";
+
     public final static int TYPE_POPULARITY = 0;
     public final static int TYPE_RATED = 1;
 
@@ -30,7 +34,15 @@ public class MainActivity extends AppCompatActivity implements BasicMovieListFra
         setContentView(R.layout.activity_main);
 
         initToolbar();
-        selectFragment(TYPE_POPULARITY);
+
+        initMovies();
+    }
+
+    private void initMovies(){
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        int defaultType = sharedPref.getInt(ARG_MOVIE_TYPE_SELECTED, TYPE_POPULARITY);
+
+        selectFragment(defaultType);
     }
 
     private void initToolbar(){
@@ -97,6 +109,14 @@ public class MainActivity extends AppCompatActivity implements BasicMovieListFra
 
         getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment).commit();
         updateSubtitle(type);
+        savePreference(type);
+    }
+
+    private void savePreference(int type){
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(ARG_MOVIE_TYPE_SELECTED, type);
+        editor.commit();
     }
 
     private void updateSubtitle(int type){
